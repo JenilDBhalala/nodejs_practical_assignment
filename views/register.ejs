@@ -1,22 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register</title>
-    <!-- Compiled and minified CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-  </head>
-
+<%- include('./partials/navbar',{username : undefined}); %>
   <body>
     <div class="valign-wrapper row login-box">
       <div class="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
         <form action="/register" method="POST">
           <div class="card-content">
+            <div class="row">
+              <%= errorMessage ? errorMessage : ''%>
+            </div>
             <div class="row">
               <div class="input-field col s12">
                 <input
@@ -53,7 +43,7 @@
               </div>
             </div>
             <div class="card-action right-align">
-              <a class="btn" href="/login">Login</a>
+              <!-- <a class="btn" href="/login">Login</a> -->
               <input
                 type="submit"
                 class="btn"

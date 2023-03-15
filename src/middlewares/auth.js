@@ -16,9 +16,7 @@ const auth = async (req, res, next) => {
         next();
     }
     catch(e){
-        res.render('login', {
-            errorMessage : "Session Expired!, Please Authenticate!"
-        });
+        res.status(400).redirect('login')
     }
 }
 

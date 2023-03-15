@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs') 
 const User = require('../models/user')
 
+
 //renders login form
 const getLoginForm = (req, res) => {
     res.render('login', {
@@ -10,7 +11,9 @@ const getLoginForm = (req, res) => {
 
 //renders registration form
 const getRegisterForm = (req, res) => {
-    res.render('register');
+    res.render('register',{
+        errorMessage : undefined
+    });
 }
 
 //logout user : delete jwt token stored in cookie
@@ -19,10 +22,27 @@ const logoutUser = (req, res) => {
     res.redirect('/login')
 }
 
+
 //renders user profile
 const getProfile = (req, res) => {
     res.render('profile', {
         username : req.user.name
+    });
+}
+
+
+//renders to homepage 
+const getHomePage = (req, res) => {
+    res.render('home',{
+        username : req.isLoggedIn ? req.isLoggedIn : undefined
+    });
+}
+
+
+//renders 404 page
+const get404Page = (req, res) => {
+    res.render('404',{
+        username : req.isLoggedIn ? req.isLoggedIn : undefined
     });
 }
 
@@ -37,11 +57,16 @@ const registerUser = async(req, res) => {
 
         const token = await user.generateAuthToken();
         
-        res.cookie('authcookie', token, 24*60*60);
+        res.cookie('authcookie', token, {
+            maxAge: 24*60*60*1000,
+            httpOnly : true
+        });
         res.redirect('/profile');
     }
     catch(e){
-        res.send(e)
+        res.status(409).render('register', {
+            errorMessage : "Email already exists, Please Login!"
+        })
     }
 }
 
@@ -52,7 +77,7 @@ const loginUser = async(req, res) => {
 
         if(!user){
             return res.status(400).render('login', {
-                error : 'Wrong email or password!'
+                errorMessage : 'Wrong email or password!'
             })
         }
         
@@ -66,7 +91,10 @@ const loginUser = async(req, res) => {
 
         const token = await user.generateAuthToken();
         
-        res.cookie('authcookie', token, 24*60*60);
+        res.cookie('authcookie', token, {
+            maxAge: 24*60*60*1000,
+            httpOnly : true
+        });
         res.redirect('/profile');
     }
     catch(e){
@@ -80,5 +108,7 @@ module.exports = {
     registerUser,
     loginUser,
     getProfile,
-    logoutUser
+    logoutUser,
+    getHomePage,
+    get404Page
 }
