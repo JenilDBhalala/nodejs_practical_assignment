@@ -3,10 +3,11 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const auth = require('../middlewares/auth')
 const isLoggedIn = require('../middlewares/isLoggedIn')
+const temp = require('../middlewares/temp')
 
 router.get('/', isLoggedIn,userController.getHomePage)
-router.get('/login', isLoggedIn, userController.getLoginForm)
-router.get('/register', isLoggedIn, userController.getRegisterForm)
+router.get('/login', temp, userController.getLoginForm)
+router.get('/register', temp, userController.getRegisterForm)
 router.get('/profile', auth, userController.getProfile)
 
 router.post('/register', userController.registerUser);
