@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="valign-wrapper row login-box">
+      <div class="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
+        <form action="/login" method="POST">
+          <div class="card-content">
+            <div class="row">
+              <%= errorMessage ? errorMessage : ''%>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  class="validate"
+                  required
+                />
+                <label for="email">Email</label>
+              </div>
+
+              <div class="input-field col s12">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  class="validate"
+                  required
+                />
+                <label for="password">Password</label>
+              </div>
+            </div>
+            <div class="card-action right-align">
+              <a class="btn" href="/register">Register</a>
+              <input
+                type="submit"
+                class="btn"
+                value="Login"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </body>
+</html>
