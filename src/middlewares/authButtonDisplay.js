@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 
-//middleware function which checks whether user is LoggedIn or not
-const isLoggedIn = async (req, res, next) => {
+//middleware function which checks whether user is logged in or not
+//if logged in then navbar will change to home page and 404 page 
+const authButtonDisplay = async (req, res, next) => {
     const token = req.cookies.authcookie;
 
     try{
@@ -15,4 +16,4 @@ const isLoggedIn = async (req, res, next) => {
     next();
 }
 
-module.exports = isLoggedIn
+module.exports = authButtonDisplay

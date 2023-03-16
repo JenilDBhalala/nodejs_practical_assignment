@@ -11,7 +11,7 @@
                 
                 <div class="row">
                     <% if(!buffer){ %>
-                    <form action="/avatar" method="post" enctype="multipart/form-data">
+                    <form action="/profile" method="post" enctype="multipart/form-data">
                         <div class="file-field input-field">
                           <div class="btn">
                             <span>Upload Profile Picture</span>
@@ -26,7 +26,7 @@
                       </form>
                     <%} else {%>
                        <img src="http://localhost:8000/avatar" alt="profile image">
-                       <form action="/avatar" method="post" enctype="multipart/form-data">
+                       <form action="/profile" method="post" enctype="multipart/form-data">
                         <div class="file-field input-field">
                           <div class="btn">
                             <span>Change Profile Picture</span>

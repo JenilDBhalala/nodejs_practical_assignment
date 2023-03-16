@@ -6,8 +6,15 @@ const upload = multer({
         fileSize : 1000000,
     },
     fileFilter(req, file, cb){
-        if (!file.originalname.match(/\.(png|jpg|jpeg|webp)$/)) {
-            return cb(new Error("Please upload a valid image file!"));
+        const whitelist = [
+            'image/jpg',
+            'image/jpeg',
+            'image/png',
+            'image/webp',
+        ]
+
+        if (!whitelist.includes(file.mimetype)) {
+            return cb(new Error("Please upload a valid image file!"), undefined);
         }
         cb(undefined, true);
     }

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 //middleware function which checks whether user is authenticated or not
-const isLoggedIn = async (req, res, next) => {
+const preventAuthRedirect = async (req, res, next) => {
     const token = req.cookies.authcookie;
 
     try{
@@ -14,4 +14,4 @@ const isLoggedIn = async (req, res, next) => {
     }
 }
 
-module.exports = isLoggedIn
+module.exports = preventAuthRedirect
