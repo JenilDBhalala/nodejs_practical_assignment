@@ -5,6 +5,41 @@
                     <h1>Hello <%= username %>
                     </h1>
                 </div>
+                <div class="row">
+                    <%= error ? error : '' %>
+                </div>
+                
+                <div class="row">
+                    <% if(!buffer){ %>
+                    <form action="/avatar" method="post" enctype="multipart/form-data">
+                        <div class="file-field input-field">
+                          <div class="btn">
+                            <span>Upload Profile Picture</span>
+                            <input type="file" name="avatar">
+                          </div>
+                          <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                          </div>
+                         
+                          <button type="submit" class="btn">Upload</button>
+                        </div>
+                      </form>
+                    <%} else {%>
+                       <img src="http://localhost:8000/avatar" alt="profile image">
+                       <form action="/avatar" method="post" enctype="multipart/form-data">
+                        <div class="file-field input-field">
+                          <div class="btn">
+                            <span>Change Profile Picture</span>
+                            <input type="file" name="avatar">
+                          </div>
+                          <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                          </div>
+                          <button type="submit" class="btn">Upload</button>
+                        </div>
+                      </form>
+                    <% } %>
+                </div>
             </div>
         </div>
 

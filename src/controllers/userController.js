@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs') 
 const User = require('../models/user')
+const sharp = require('sharp')
 
 
 //renders login form
@@ -26,7 +27,9 @@ const logoutUser = (req, res) => {
 //renders user profile
 const getProfile = (req, res) => {
     res.render('profile', {
-        username : req.user.name
+        buffer : req.user.avatar,
+        username : req.user.name,
+        error : undefined
     });
 }
 
@@ -102,6 +105,33 @@ const loginUser = async(req, res) => {
     }
 }
 
+
+//uploading profile picture
+const uploadProfilePicture = async (req, res) => {
+    try{
+        const buffer = await sharp(req.file.buffer).resize({width:250, height:250}).png().toBuffer();
+        req.user.avatar = buffer;
+        await req.user.save();
+        res.render('profile', {
+            buffer, 
+            username : req.user.name,
+            error : undefined
+        })
+    }
+    catch(e){
+        res.render('profile', {
+            buffer : req.user.avatar,
+            username : req.user.name,
+            error : "Please choose image!"
+        })
+    }   
+
+}
+
+const getProfileImage = async (req, res) => {
+    res.send(req.user.avatar)
+}
+
 module.exports = {
     getLoginForm,
     getRegisterForm,
@@ -110,5 +140,7 @@ module.exports = {
     getProfile,
     logoutUser,
     getHomePage,
-    get404Page
+    get404Page,
+    uploadProfilePicture,
+    getProfileImage
 }

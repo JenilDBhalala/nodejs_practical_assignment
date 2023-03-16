@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-//middleware function which checks whether user is authenticated or not
+//middleware function which checks whether user is LoggedIn or not
 const isLoggedIn = async (req, res, next) => {
     const token = req.cookies.authcookie;
 
