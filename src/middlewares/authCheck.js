@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user')
 
-//middleware function which checks whether user is authenticated or not
-//and concate user and token with request object to use it into next middleware function
+/*
+ * Middleware to check if the user is authenticated.
+ * If the user is authenticated, the request will be passed to the next middleware.
+ * If the user is not authenticated, they will be redirected to the login page.
+*/
 const authCheck = async (req, res, next) => {
     try {
         const token = req.cookies.authcookie;

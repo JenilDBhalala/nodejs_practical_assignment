@@ -17,6 +17,7 @@ const getRegisterForm = (req, res) => {
     });
 }
 
+
 //logout user : delete jwt token stored in cookie
 const logoutUser = (req, res) => {
     res.clearCookie('authcookie');
@@ -60,6 +61,7 @@ const registerUser = async(req, res) => {
 
         const token = await user.generateAuthToken();
         
+        //storing jwt token into cookie
         res.cookie('authcookie', token, {
             maxAge: 24*60*60*1000,
             httpOnly : true
@@ -94,6 +96,7 @@ const loginUser = async(req, res) => {
 
         const token = await user.generateAuthToken();
         
+        //storing jwt token into cookie
         res.cookie('authcookie', token, {
             maxAge: 24*60*60*1000,
             httpOnly : true
@@ -128,9 +131,6 @@ const uploadProfilePicture = async (req, res) => {
 
 }
 
-const getProfileImage = async (req, res) => {
-    res.send(req.user.avatar)
-}
 
 module.exports = {
     getLoginForm,
@@ -142,5 +142,4 @@ module.exports = {
     getHomePage,
     get404Page,
     uploadProfilePicture,
-    getProfileImage
 }
