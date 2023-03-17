@@ -6,14 +6,21 @@ const sharp = require('sharp')
 //renders login form
 const getLoginForm = (req, res) => {
     res.render('login', {
-        errorMessage : undefined
+        errorMessage : undefined,
+        oldInput : {
+            email : ''
+        }
     });
 }
 
 //renders registration form
 const getRegisterForm = (req, res) => {
     res.render('register',{
-        errorMessage : undefined
+        errorMessage : undefined,
+        oldInput : {
+            email : '',
+            username : ''
+        }
     });
 }
 
@@ -70,7 +77,11 @@ const registerUser = async(req, res) => {
     }
     catch(e){
         res.status(409).render('register', {
-            errorMessage : "Email already exists, Please Login!"
+            errorMessage : "Email already exists, Please Login!",
+            oldInput : {
+                email : req.body.email,
+                username : req.body.username
+            }
         })
     }
 }
@@ -82,7 +93,10 @@ const loginUser = async(req, res) => {
 
         if(!user){
             return res.status(400).render('login', {
-                errorMessage : 'Wrong email or password!'
+                errorMessage : 'Wrong email or password!',
+                oldInput : {
+                    email : req.body.email
+                }
             })
         }
         
@@ -90,7 +104,10 @@ const loginUser = async(req, res) => {
 
         if(!match){
             return res.status(400).render('login', {
-                errorMessage : 'Wrong email or password!'
+                errorMessage : 'Wrong email or password!',
+                oldInput : {
+                    email : req.body.email
+                }
             })
         }
 
