@@ -118,7 +118,7 @@ const loginUser = async(req, res) => {
             maxAge: 24*60*60*1000,
             httpOnly : true
         });
-        res.status(200).redirect('/profile');
+        res.status(302).redirect('/profile');
     }
     catch(e){
         res.status(302).redirect('/home');
