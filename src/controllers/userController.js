@@ -4,13 +4,22 @@ const User = require('../models/user')
 //renders login form
 const getLoginForm = (req, res) => {
     res.render('login', {
-        errorMessage : undefined
+        errorMessage : undefined,
+        oldInput : {
+            email : ''
+        }
     });
 }
 
 //renders registration form
 const getRegisterForm = (req, res) => {
-    res.render('register');
+    res.render('register',{
+        errorMessage : undefined,
+        oldInput : {
+            email : '',
+            username : ''
+        }
+    });
 }
 
 //logout user : delete jwt token stored in cookie
@@ -41,7 +50,13 @@ const registerUser = async(req, res) => {
         res.redirect('/profile');
     }
     catch(e){
-        res.send(e)
+        res.status(409).render('register', {
+            errorMessage : "Email already exists, Please Login!",
+            oldInput : {
+                email : req.body.email,
+                username : req.body.username
+            }
+        })
     }
 }
 
@@ -52,7 +67,10 @@ const loginUser = async(req, res) => {
 
         if(!user){
             return res.status(400).render('login', {
-                error : 'Wrong email or password!'
+                errorMessage : 'Wrong email or password!',
+                oldInput : {
+                    email : req.body.email
+                }
             })
         }
         
@@ -60,7 +78,10 @@ const loginUser = async(req, res) => {
 
         if(!match){
             return res.status(400).render('login', {
-                errorMessage : 'Wrong email or password!'
+                errorMessage : 'Wrong email or password!',
+                oldInput : {
+                    email : req.body.email
+                }
             })
         }
 
