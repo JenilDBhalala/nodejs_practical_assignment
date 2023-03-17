@@ -2,7 +2,8 @@
 /**
  * Middleware function to handle image validation errors when uploading via Multer.
  * Checks whether the image is in the correct format (JPEG, PNG, JPG, WEBP) and throws an error if not.
- * Also Checks file size limit and throws an error if file size is larger
+ * Also checks file size limit and throws an error if file size is larger
+ * Also throws error when user clicks on upload button without selection of any file
  */
 const imageValidationErrorHandler = (error, req, res, next) => {
     return res.status(415).render('profile', {
@@ -10,7 +11,6 @@ const imageValidationErrorHandler = (error, req, res, next) => {
         username : req.user.name,
         error: error.message 
     });
-    // next()
 }
 
 module.exports = imageValidationErrorHandler;

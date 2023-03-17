@@ -20,7 +20,7 @@ const authCheck = async (req, res, next) => {
         next();
     }
     catch(e){
-        res.status(400).redirect('login');
+        res.status(401).redirect('login');
     }
 }
 

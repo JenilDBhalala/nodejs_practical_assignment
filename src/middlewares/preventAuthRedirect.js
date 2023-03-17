@@ -10,7 +10,7 @@ const preventAuthRedirect = async (req, res, next) => {
 
     try{
         jwt.verify(token, process.env.MY_SECRET)
-        res.redirect('/profile');
+        res.status(400).redirect('/profile');
     }
     catch(e){
         req.isLoggedIn = false;

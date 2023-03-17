@@ -5,7 +5,7 @@ const sharp = require('sharp')
 
 //renders login form
 const getLoginForm = (req, res) => {
-    res.render('login', {
+    res.status(200).render('login', {
         errorMessage : undefined,
         oldInput : {
             email : ''
@@ -15,7 +15,7 @@ const getLoginForm = (req, res) => {
 
 //renders registration form
 const getRegisterForm = (req, res) => {
-    res.render('register',{
+    res.status(200).render('register',{
         errorMessage : undefined,
         oldInput : {
             email : '',
@@ -28,13 +28,13 @@ const getRegisterForm = (req, res) => {
 //logout user : delete jwt token stored in cookie
 const logoutUser = (req, res) => {
     res.clearCookie('authcookie');
-    res.redirect('/login')
+    res.status(200).redirect('/login')
 }
 
 
 //renders user profile
 const getProfile = (req, res) => {
-    res.render('profile', {
+    res.status(200).render('profile', {
         buffer : req.user.avatar,
         username : req.user.name,
         error : undefined
@@ -44,7 +44,7 @@ const getProfile = (req, res) => {
 
 //renders to homepage 
 const getHomePage = (req, res) => {
-    res.render('home',{
+    res.status(200).render('home',{
         username : req.isLoggedIn ? req.isLoggedIn : undefined
     });
 }
@@ -52,7 +52,7 @@ const getHomePage = (req, res) => {
 
 //renders 404 page
 const get404Page = (req, res) => {
-    res.render('404',{
+    res.status(404).render('404',{
         username : req.isLoggedIn ? req.isLoggedIn : undefined
     });
 }
@@ -73,7 +73,7 @@ const registerUser = async(req, res) => {
             maxAge: 24*60*60*1000,
             httpOnly : true
         });
-        res.redirect('/profile');
+        res.status(201).redirect('/profile');
     }
     catch(e){
         res.status(409).render('register', {
@@ -118,34 +118,29 @@ const loginUser = async(req, res) => {
             maxAge: 24*60*60*1000,
             httpOnly : true
         });
-        res.redirect('/profile');
+        res.status(200).redirect('/profile');
     }
     catch(e){
-        console.log(e.message)
+        res.status(302).redirect('/home');
     }
 }
 
 
 //uploading profile picture
-const uploadProfilePicture = async (req, res) => {
+const uploadProfilePicture = async (req, res, next) => {
     try{
         const buffer = await sharp(req.file.buffer).resize({width:250, height:250}).png().toBuffer();
         req.user.avatar = buffer;
         await req.user.save();
-        res.render('profile', {
+        res.status(201).render('profile', {
             buffer, 
             username : req.user.name,
             error : undefined
         })
     }
     catch(e){
-        res.render('profile', {
-            buffer : req.user.avatar,
-            username : req.user.name,
-            error : "Please choose image!"
-        })
+        next(new Error('Please choose image!'))
     }   
-
 }
 
 
