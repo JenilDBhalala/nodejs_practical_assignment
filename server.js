@@ -43,7 +43,6 @@ app.use(cookieParser());
 
 app.use(userRoutes);
 
-
 //server configuration
 const port = 8000;
 const host = 'localhost'
